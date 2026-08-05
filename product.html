@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flipkart-Style Store</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0; padding: 0;
+        background: url("3.jpg") no-repeat center center fixed;
+        background-size: cover;
+    }
+    header {
+        background: #2874f0;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 22px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    .search-bar { text-align: center; margin: 20px; }
+    .search-bar input {
+        width: 50%; padding: 10px;
+        border: 1px solid #ddd; border-radius: 6px;
+        font-size: 16px;
+    }
+    h2.section-title {
+        margin: 20px;
+        font-size: 22px;
+        color: #222;
+        background: rgba(255,255,255,0.8);
+        display: inline-block;
+        padding: 6px 15px;
+        border-radius: 8px;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .product {
+        background: rgba(255,255,255,0.9);
+        padding: 15px; border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+    }
+    .product:hover { transform: scale(1.05); }
+    .product img {
+        width: 160px; height: 160px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+    .product h3 { margin: 10px 0; font-size: 18px; color: #333; }
+    .product p { color: #009688; font-weight: bold; margin: 5px 0; font-size: 16px; }
+    button {
+        background: #ff5722; color: white; padding: 10px;
+        border: none; border-radius: 8px; cursor: pointer;
+        margin-top: 10px; width: 100%; font-size: 14px;
+    }
+    button:hover { background: #e64a19; }
+    .cart-link { text-align:center; margin:20px; }
+    .logout { margin: 30px 0; text-align: center; }
+    .logout a {
+        text-decoration: none; color: white;
+        background: red; padding: 10px 20px; border-radius: 8px;
+    }
+</style>
+<script>
+// Search function
+function searchProducts() {
+    let input = document.getElementById("searchBox").value.toLowerCase().trim();
+    let sections = document.getElementsByClassName("container");
+    let titles = document.getElementsByClassName("section-title");
+
+    for (let s = 0; s < sections.length; s++) {
+        let products = sections[s].getElementsByClassName("product");
+        let sectionTitle = titles[s].innerText.toLowerCase();
+
+        let sectionHasMatch = false;
+
+        for (let i = 0; i < products.length; i++) {
+            let name = products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+
+            if (name.includes(input) || sectionTitle.includes(input) || input === "") {
+                products[i].style.display = "block";
+                sectionHasMatch = true;
+            } else {
+                products[i].style.display = "none";
+            }
+        }
+
+        if (sectionHasMatch) {
+            titles[s].style.display = "block";
+            sections[s].style.display = "grid";
+        } else {
+            titles[s].style.display = "none";
+            sections[s].style.display = "none";
+        }
+    }
+}
+
+// Add to cart function
+function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push({name: name, price: price});
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(name + " successfully added to cart ✅");
+}
+</script>
+</head>
+<body>
+<header>Welcome to Flipkart-Style Store 🛒</header>
+
+<div class="search-bar">
+    <input type="text" id="searchBox" onkeyup="searchProducts()" placeholder="Search for products...">
+</div>
+
+<!-- Electronics -->
+<h2 class="section-title">📱 Electronics</h2>
+<div class="container">
+    <div class="product"><img src="5.jpg"><h3>Smartphone</h3><p>₹15,999</p><button onclick="addToCart('Smartphone','15999')">Add to Cart</button></div>
+    <div class="product"><img src="6.jpg"><h3>Laptop</h3><p>₹45,999</p><button onclick="addToCart('Laptop','45999')">Add to Cart</button></div>
+    <div class="product"><img src="7.jpg"><h3>Smart TV</h3><p>₹32,999</p><button onclick="addToCart('Smart TV','32999')">Add to Cart</button></div>
+    <div class="product"><img src="8.jpg"><h3>Headphones</h3><p>₹2,499</p><button onclick="addToCart('Headphones','2499')">Add to Cart</button></div>
+</div>
+
+<!-- Toys -->
+<h2 class="section-title">🧸 Toys</h2>
+<div class="container">
+    <div class="product"><img src="9.jpg"><h3>Teddy Bear</h3><p>₹799</p><button onclick="addToCart('Teddy Bear','799')">Add to Cart</button></div>
+    <div class="product"><img src="11.jpg"><h3>Toy Car</h3><p>₹499</p><button onclick="addToCart('Toy Car','499')">Add to Cart</button></div>
+    <div class="product"><img src="12.jpg"><h3>Lego Set</h3><p>₹1,999</p><button onclick="addToCart('Lego Set','1999')">Add to Cart</button></div>
+    <div class="product"><img src="13.jpg"><h3>Robot Toy</h3><p>₹1,299</p><button onclick="addToCart('Robot Toy','1299')">Add to Cart</button></div>
+</div>
+
+<!-- Clothes -->
+<h2 class="section-title">👕 Clothes</h2>
+<div class="container">
+    <div class="product"><img src="14.jpg"><h3>Shirt</h3><p>₹999</p><button onclick="addToCart('Shirt','999')">Add to Cart</button></div>
+    <div class="product"><img src="15.jpg"><h3>Jeans</h3><p>₹1,799</p><button onclick="addToCart('Jeans','1799')">Add to Cart</button></div>
+    <div class="product"><img src="16.jpg"><h3>Dress</h3><p>₹2,199</p><button onclick="addToCart('Dress','2199')">Add to Cart</button></div>
+    <div class="product"><img src="17.jpg"><h3>Jacket</h3><p>₹3,499</p><button onclick="addToCart('Jacket','3499')">Add to Cart</button></div>
+</div>
+
+<!-- Home Appliances -->
+<h2 class="section-title">🏠 Home Appliances</h2>
+<div class="container">
+    <div class="product"><img src="18.jpg"><h3>Refrigerator</h3><p>₹19,999</p><button onclick="addToCart('Refrigerator','19999')">Add to Cart</button></div>
+    <div class="product"><img src="19.jpg"><h3>Washing Machine</h3><p>₹24,999</p><button onclick="addToCart('Washing Machine','24999')">Add to Cart</button></div>
+    <div class="product"><img src="10.jpg"><h3>Mixer Grinder</h3><p>₹4,999</p><button onclick="addToCart('Mixer Grinder','4999')">Add to Cart</button></div>
+    <div class="product"><img src="21.jpg"><h3>Microwave Oven</h3><p>₹8,999</p><button onclick="addToCart('Microwave Oven','8999')">Add to Cart</button></div>
+</div>
+
+<!-- Books -->
+<h2 class="section-title">📚 Books</h2>
+<div class="container">
+    <div class="product"><img src="22.jpg"><h3>Fiction Novel</h3><p>₹499</p><button onclick="addToCart('Fiction Novel','499')">Add to Cart</button></div>
+    <div class="product"><img src="23.jpg"><h3>Science Book</h3><p>₹699</p><button onclick="addToCart('Science Book','699')">Add to Cart</button></div>
+    <div class="product"><img src="25.jpg"><h3>History Book</h3><p>₹599</p><button onclick="addToCart('History Book','599')">Add to Cart</button></div>
+    <div class="product"><img src="26.jpg"><h3>Kids Story Book</h3><p>₹299</p><button onclick="addToCart('Kids Story Book','299')">Add to Cart</button></div>
+</div>
+
+<div class="cart-link">
+    <a href="cart.php"><button>Go to Cart</button></a>
+</div>
+
+
+<div class="logout">
+    <a href="login.html">Logout</a>
+</div>
+
+</body>
+</html>
